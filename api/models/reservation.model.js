@@ -4,11 +4,7 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
 const reservationSchema = new Schema({
-	reservationId: {
-		type: uuid.v1(),
-		required: true,
-	},
-	date_in: {
+  date_in: {
 		type: Date,
 		required: [true, "Reservation start date required"],
 	},
@@ -16,14 +12,10 @@ const reservationSchema = new Schema({
 		type: Date,
 		required: [true, "Reservation end date required"],
 	},
-	guest_id: {
-		type: String,
-		required: true,
-	},
-	totalAmount: {
-		type: Number,
-		required: true,
-	},
+  guestId: {
+    type: String,
+    required: true,
+  },
 }, {timestamps: true});
 
 module.exports = mongoose.model("reservations", reservationSchema);

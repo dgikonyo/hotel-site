@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reservedRoomSchema = new Schema({
-	number_of_rooms: {
+	numberOfRooms: {
 		type: Number,
 		required: true,
 	},
@@ -16,14 +16,6 @@ const reservedRoomSchema = new Schema({
 		required: true,
 	},
 	status: {
-		type: String,
-		required: true,
-	},
-	paymentAmount: {
-		type: String,
-		required: true,
-	},
-	transactionId: {
 		type: String,
 		required: true,
 	},

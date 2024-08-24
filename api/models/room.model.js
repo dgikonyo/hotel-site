@@ -22,7 +22,7 @@ const roomSchema = new Schema({
 	costPerNight: {
 		type: Number,
 		required: true,
-	}
+	},
 	roomTypeId: {
 		type: String,
 		required: true,

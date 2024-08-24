@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
+const validator = require("validator");
 
 const userSchema = new Schema({
     user_id: {
@@ -36,7 +37,7 @@ const userSchema = new Schema({
     nationalIdNumber: {
       type: Number,
       required: true,
-    }
+    },
 }, {timestamps: true});
 
 module.exports = mongoose.model("guest", userSchema);
