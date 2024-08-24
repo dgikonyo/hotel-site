@@ -11,7 +11,8 @@ class GuestDto {
 	lastName,
 	email,
 	dateOfBirth,
-	nationalIdNumber){
+	nationalIdNumber
+	){
 		this.user_id = user_id;
 		this.firstName = firstName;
 		this.lastName = lastName;

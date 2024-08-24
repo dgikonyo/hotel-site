@@ -8,7 +8,6 @@ class GuestService {
 	async registerGuest(req, res) {
 		const guestInstance = plainToInstance(GuestDto ,req.body);
 		const guestDto = new GuestDto();
-		// (){}
 
 		// check for errors in any item in the request body
 		if (!guestInstance.firstName){
