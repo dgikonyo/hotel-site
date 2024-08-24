@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
 const userSchema = new Schema({
-    id: {
+    user_id: {
       type: String,
       default: uuid.v4(),
       unique: true,
@@ -25,14 +25,18 @@ const userSchema = new Schema({
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
+      lowercase: true,  
       trim: true,
       validate: [validator.isEmail, "Please provide a valid email."],
     },
     dateOfBirth: {
       type: Date,
       required: true,
+    },
+    nationalIdNumber: {
+      type: Number,
+      required: true,
     }
 }, {timestamps: true});
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("guest", userSchema);
