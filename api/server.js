@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 const GuestRoutes = require("./routes/users.routes");
+const RoomRoutes = require("./routes/room.routes");
 dotenv.config();
 
 const port = process.env.PORT;
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // import routes
 app.use("/api/v1/guests", GuestRoutes);
+app.use("/api/v1/rooms", RoomRoutes);
 
 // connect to MongoDB
 mongoose
