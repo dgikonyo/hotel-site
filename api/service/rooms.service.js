@@ -1,11 +1,11 @@
 const { plainToInstance } = require("class-transformer");
 const RoomDto = require("../dto/room.dto");
 const ResponseService = require("../utils/responses/responseUtils");
+const Room = require("../models/room.model");
 
 class RoomService {
   async registerRoom(req, res) {
     const roomInstance = plainToInstance(RoomDto, req.body);
-
     const validationErrors = await this.validateRoom(roomInstance);
 
     if (validationErrors.length > 0) {
@@ -19,8 +19,48 @@ class RoomService {
     }
 
     try {
-        const isRoomNumberExists
-    } catch (errors) {}
+        const isRoomNumberExists = await Room.findOne({
+          roomNumber: roomInstance.roomNumber,
+        });
+
+        if (isCampaignExists.length > 0) {
+          return ResponseService.sendResponse(
+            res,
+            400,
+            "CONFLICT",
+            "FAILURE",
+            "DUPLICATE ROOM NUMBER FOUND"
+          );
+        }
+
+        const roomDto = new RoomDto();
+
+        roomDto.setRoomNumber(roomDto.roomNumber);
+        roomDto.setName(roomDto.name);
+        roomDto.setStatus(roomDto.status);
+        roomDto.setSmoke(roomDto.smoke);
+        roomDto.setCostPerNight(roomDto.costPerNight);
+        roomDto.setRoomTypeId(roomDto.roomTypeId);
+
+        const room = new Room(roomDto);
+        const result = await room.save();
+
+        return ResponseService.sendResponse(
+          res,
+          201,
+          "CREATED",
+          "SUCCESS",
+          result,
+          );
+    } catch (errors) {
+      return ResponseService.sendResponse(
+        res,
+        500,
+        "INTERNAL SERVER ERROR",
+        "FAILURE",
+        error.message
+      );
+    }
   }
 
   async listRooms(req, res) {}
