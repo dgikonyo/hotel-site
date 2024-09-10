@@ -59,7 +59,7 @@ class RoomDto {
     return this.roomTypeId;
   }
 
-  setRoomNumber(roomTypeId) {
+  setRoomTypeId(roomTypeId) {
     this.roomTypeId = roomTypeId;
   }
 }

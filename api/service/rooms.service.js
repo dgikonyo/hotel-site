@@ -9,7 +9,7 @@ class RoomService {
     const validationErrors = await this.validateRoom(roomInstance);
 
     if (validationErrors.length > 0) {
-      return new ResponseService.sendResponse(
+      return ResponseService.sendResponse(
         res,
         400,
         "BAD REQUEST",
@@ -19,40 +19,69 @@ class RoomService {
     }
 
     try {
-        const isRoomNumberExists = await Room.findOne({
-          roomNumber: roomInstance.roomNumber,
-        });
+      const isRoomNumberExists = await Room.findOne({
+        roomNumber: roomInstance.roomNumber,
+      });
 
-        if (isCampaignExists.length > 0) {
-          return ResponseService.sendResponse(
-            res,
-            400,
-            "CONFLICT",
-            "FAILURE",
-            "DUPLICATE ROOM NUMBER FOUND"
-          );
-        }
-
-        const roomDto = new RoomDto();
-
-        roomDto.setRoomNumber(roomDto.roomNumber);
-        roomDto.setName(roomDto.name);
-        roomDto.setStatus(roomDto.status);
-        roomDto.setSmoke(roomDto.smoke);
-        roomDto.setCostPerNight(roomDto.costPerNight);
-        roomDto.setRoomTypeId(roomDto.roomTypeId);
-
-        const room = new Room(roomDto);
-        const result = await room.save();
-
+      if (isRoomNumberExists.length > 0) {
         return ResponseService.sendResponse(
           res,
-          201,
-          "CREATED",
-          "SUCCESS",
-          result,
-          );
+          400,
+          "CONFLICT",
+          "FAILURE",
+          "DUPLICATE ROOM NUMBER FOUND"
+        );
+      }
+
+      const roomDto = new RoomDto();
+
+      roomDto.setRoomNumber(roomInstance.roomNumber);
+      roomDto.setName(roomInstance.name);
+      roomDto.setStatus(roomInstance.status);
+      roomDto.setSmoke(roomInstance.smoke);
+      roomDto.setCostPerNight(roomInstance.costPerNight);
+      roomDto.setRoomTypeId(roomInstance.roomTypeId);
+
+      const room = new Room(roomDto);
+      const result = await room.save();
+
+      return ResponseService.sendResponse(
+        res,
+        201,
+        "CREATED",
+        "SUCCESS",
+        result
+      );
     } catch (errors) {
+      return ResponseService.sendResponse(
+        res,
+        500,
+        "INTERNAL SERVER ERROR",
+        "FAILURE",
+        error.message
+      );
+    }
+  }
+
+  async registerBulkRooms(req, res) {
+    const roomInstance = plainToInstance(RoomDto, req.body);
+
+    try {
+      const room = new Room();
+
+      const result = room.collection.insertMany(
+        roomInstance,
+        function (err, res) {
+          if (err) {
+            throw err;
+          }
+
+          console.log("Number of documents inserted: " + res.insertedCount);
+          room.close();
+        }
+      );
+      console.log(result);
+    } catch (error) {
       return ResponseService.sendResponse(
         res,
         500,
