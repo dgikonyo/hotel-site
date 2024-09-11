@@ -71,16 +71,21 @@ class RoomService {
 
       const result = room.collection.insertMany(
         roomInstance,
-        function (err, res) {
+        function (err, res, next) {
           if (err) {
             throw err;
           }
-
           console.log("Number of documents inserted: " + res.insertedCount);
-          room.close();
+          next();
         }
       );
-      console.log(result);
+      return ResponseService.sendResponse(
+        res,
+        201,
+        "CREATED",
+        "SUCCESS",
+        result
+      );
     } catch (error) {
       return ResponseService.sendResponse(
         res,
