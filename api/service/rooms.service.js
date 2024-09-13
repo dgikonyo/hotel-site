@@ -97,7 +97,12 @@ class RoomService {
     }
   }
 
-  async listRooms(req, res) {}
+  async listRooms(req, res) {
+    // query all available rooms where status: available
+    try {
+      
+    } catch (error) {}
+  }
   async getARoom(req, res) {}
   async checkRoomAvailability(req, res) {}
   async searchRooms(req, res) {}
